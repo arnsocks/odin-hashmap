@@ -34,4 +34,13 @@ export default class HashMap {
     }
     bucket.push({ key, value });
   }
+
+  get(key) {
+    let bucket = this.buckets[this.hash(key)];
+    let entry = this.#entry(bucket, key);
+    if (entry) {
+      return entry.value;
+    }
+    return null;
+  }
 }

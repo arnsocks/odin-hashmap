@@ -57,4 +57,15 @@ export default class HashMap {
     let entry = this.#entry(bucket, key);
     return entry ? true : false;
   }
+
+  remove(key) {
+    // If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
+    let bucket = this.#bucket(key);
+    let entry = this.#entry(bucket, key);
+    if (entry) {
+      // remove the entry
+      bucket.splice(bucket.indexOf(key), 1);
+      return true;
+    } else return false;
+  }
 }

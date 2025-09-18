@@ -1,8 +1,8 @@
 export default class HashMap {
-  constructor() {
-    this.loadFactor = 0;
-    this.capacity = 16;
-    this.bs = [];
+  constructor(capacity = 16, loadFactor = 0.75) {
+    this.loadFactor = loadFactor;
+    this.capacity = capacity;
+    this.buckets = Array(capacity);
   }
 
   hash(key) {
@@ -16,5 +16,22 @@ export default class HashMap {
     return hashCode;
   }
 
-  set(key, value) {}
+  #entry(bucket, key) {
+    for (let e of bucket) {
+      if (e.key === key) {
+        return e;
+      }
+    }
+    return null;
+  }
+
+  set(key, value) {
+    let bucket = this.buckets[hash(key)];
+    let entry = this.#entry(bucket, key);
+    if (entry) {
+      entry.value = value;
+      return;
+    }
+    bucket.push({ key, value });
+  }
 }

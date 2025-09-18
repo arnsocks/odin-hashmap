@@ -2,7 +2,10 @@ export default class HashMap {
   constructor(capacity = 16, loadFactor = 0.75) {
     this.loadFactor = loadFactor;
     this.capacity = capacity;
-    this.buckets = Array(capacity);
+    this.buckets = new Array(capacity);
+    for (let i = 0; i < capacity; i++) {
+      this.buckets[i] = [];
+    }
   }
 
   hash(key) {
@@ -16,6 +19,10 @@ export default class HashMap {
     return hashCode;
   }
 
+  #bucket(key) {
+    return this.buckets[this.hash(key)];
+  }
+
   #entry(bucket, key) {
     for (let e of bucket) {
       if (e.key === key) {
@@ -26,7 +33,7 @@ export default class HashMap {
   }
 
   set(key, value) {
-    let bucket = this.buckets[hash(key)];
+    let bucket = this.#bucket(key);
     let entry = this.#entry(bucket, key);
     if (entry) {
       entry.value = value;
@@ -36,11 +43,18 @@ export default class HashMap {
   }
 
   get(key) {
-    let bucket = this.buckets[this.hash(key)];
+    let bucket = this.#bucket(key);
     let entry = this.#entry(bucket, key);
     if (entry) {
       return entry.value;
     }
     return null;
+  }
+
+  has(key) {
+    // returns true or false based on whether or not the key is in the hash map.
+    let bucket = this.#bucket(key);
+    let entry = this.#entry(bucket, key);
+    return entry ? true : false;
   }
 }

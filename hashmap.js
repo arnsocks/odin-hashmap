@@ -68,4 +68,30 @@ export default class HashMap {
       return true;
     } else return false;
   }
+
+  length() {
+    //returns the number of stored keys in the hash map.
+    let length = 0;
+    for (let b of this.buckets) {
+      length += b.length;
+    }
+    return length;
+  }
+
+  clear() {
+    //removes all entries in the hash map.
+    this.buckets = new Array(this.capacity).fill(null).map(() => []);
+  }
+
+  keys() {
+    //returns an array containing all the keys inside the hash map.
+  }
+
+  values() {
+    //returns an array containing all the values.
+  }
+
+  entries() {
+    //returns an array that contains each key, value pair. Example: [[firstKey, firstValue], [secondKey, secondValue]]
+  }
 }

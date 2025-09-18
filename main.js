@@ -13,3 +13,8 @@ test.set("fruit", "bat");
 console.log(test.get("fruit"));
 test.remove("fruit");
 console.log(test.get("fruit"));
+
+console.log(test.length());
+
+test.clear();
+console.log(test.length());

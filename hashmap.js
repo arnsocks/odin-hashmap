@@ -2,13 +2,10 @@ export default class HashMap {
   constructor(capacity = 16, loadFactor = 0.75) {
     this.loadFactor = loadFactor;
     this.capacity = capacity;
-    this.buckets = new Array(capacity);
-    for (let i = 0; i < capacity; i++) {
-      this.buckets[i] = [];
-    }
+    this.buckets = new Array(this.capacity).fill(null).map(() => []);
   }
 
-  hash(key) {
+  #hash(key) {
     let hashCode = 0;
     const primeNumber = 31;
     for (let i = 0; i < key.length; i++) {
@@ -20,7 +17,7 @@ export default class HashMap {
   }
 
   #bucket(key) {
-    return this.buckets[this.hash(key)];
+    return this.buckets[this.#hash(key)];
   }
 
   #entry(bucket, key) {
@@ -32,6 +29,17 @@ export default class HashMap {
     return null;
   }
 
+  #resize() {
+    const oldBuckets = this.buckets;
+    this.capacity *= 2;
+    this.buckets = new Array(this.capacity).fill(null).map(() => []);
+    for (let b of oldBuckets) {
+      for (let e of b) {
+        this.set(e.key, e.value);
+      }
+    }
+  }
+
   set(key, value) {
     let bucket = this.#bucket(key);
     let entry = this.#entry(bucket, key);
@@ -40,6 +48,8 @@ export default class HashMap {
       return;
     }
     bucket.push({ key, value });
+
+    if (this.length() / this.capacity > this.loadFactor) this.#resize();
   }
 
   get(key) {

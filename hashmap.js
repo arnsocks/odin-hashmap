@@ -85,13 +85,35 @@ export default class HashMap {
 
   keys() {
     //returns an array containing all the keys inside the hash map.
+    let keys = [];
+    for (let b of this.buckets) {
+      for (let e of b) {
+        keys.push(e.key);
+      }
+    }
+    return keys;
   }
 
   values() {
     //returns an array containing all the values.
+    let values = [];
+    for (let b of this.buckets) {
+      for (let e of b) {
+        values.push(e.value);
+      }
+    }
+    return values;
   }
 
   entries() {
     //returns an array that contains each key, value pair. Example: [[firstKey, firstValue], [secondKey, secondValue]]
+    let entries = [];
+    for (let b of this.buckets) {
+      for (let e of b) {
+        let entry = [e.key, e.value];
+        entries.push(entry);
+      }
+    }
+    return entries;
   }
 }

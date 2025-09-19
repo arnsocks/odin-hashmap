@@ -15,6 +15,6 @@ test.remove("fruit");
 console.log(test.get("fruit"));
 
 console.log(test.length());
-
-test.clear();
-console.log(test.length());
+console.log(test.keys());
+console.log(test.values());
+console.log(test.entries());
